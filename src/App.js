@@ -29,6 +29,9 @@ import { Box } from '@mui/system';
 import Checklist from './components/studyCentral/checklist';
 import Attendance from './components/studyCentral/attendance';
 import Marks from './components/studyCentral/marks';
+import CreateTask from './components/createTask/createtask';
+import CreateUser from './components/createUser/Userscreen';
+import AssignClass from './components/assignClass/AssignClass';
 
 
 function App() {
@@ -168,7 +171,10 @@ function App() {
           <Item style={{ minHeight: "125%", marginTop: "1%", borderRadius: "45px" }}>
           {/* <Checklist/> */}
           {/* <Attendance/> */}
-          <Marks/>
+          {/* <Marks/> */}
+          {/* <CreateTask/> */}
+          {/* <CreateUser/> */}
+          <AssignClass/>
           </Item>
         </Grid>
       </Grid>
