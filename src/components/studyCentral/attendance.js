@@ -17,12 +17,31 @@ import { Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
 import AddchartIcon from '@mui/icons-material/Addchart';
+import AdapterDateFns from '@mui/lab/AdapterDateFns';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
+import TextField from '@mui/material/TextField';
+import axios from 'axios';
+import { useState } from 'react';
+
 
 export default function Attendance() {
-    const [age, setAge] = React.useState('');
+    const [section, setSection] = React.useState('');
+    const [class2, setClass] = React.useState('');
+    const [value, setValue] = React.useState(new Date('2014-08-18T21:11:54'));
+    const [students, setStudents] = useState([])
 
-    const handleChange = (event) => {
-        setAge(event.target.value);
+
+    const handleSection = (event) => {
+        setSection(event.target.value);
+    };
+
+    const handleClass = (event) => {
+        setClass(event.target.value);
+    };
+
+    const handleChangeDate = (newValue) => {
+        setValue(newValue);
     };
 
     const presentButtonTextStyle = {
@@ -35,6 +54,17 @@ export default function Attendance() {
         textTransform: "capitalize"
     }
 
+    const presentButtonTextStyleDisabled = {
+        fontFamily: "Poppins",
+        fontStyle: "normal",
+        fontWeight: "500",
+        fontSize: "18px",
+        lineHeight: "27px",
+        color: "#A1A1A1",
+        textTransform: "capitalize"
+    }
+
+
     const absentButtonTextStyle = {
         fontFamily: "Poppins",
         fontStyle: "normal",
@@ -45,10 +75,35 @@ export default function Attendance() {
         textTransform: "capitalize"
     }
 
+    const absentButtonTextStyleDisabled = {
+        fontFamily: "Poppins",
+        fontStyle: "normal",
+        fontWeight: "500",
+        fontSize: "18px",
+        lineHeight: "27px",
+        color: "#A1A1A1",
+        textTransform: "capitalize"
+    }
+
 
     function createData(name, status, statistics) {
         return { name, status, statistics };
     }
+
+    function createButtons(status) {
+        if (status === "present") {
+            return <Box style={{ display: 'flex', flexWrap: 'wrap', marginLeft: "25%" }}>
+                <Button style={{ marginRight: "2%", background: "rgba(163, 234, 138, 0.4)", width: "175px" }}><CheckIcon style={{ color: "#1C6A00" }} /><Typography style={presentButtonTextStyle}>Present</Typography></Button>
+                <Button style={{ background: "#E0E0E0", width: "175px" }}><CloseIcon style={{ color: "#A1A1A1" }} /><Typography style={absentButtonTextStyleDisabled}>Absent</Typography></Button>
+            </Box>
+        }
+        else {
+                return <Box style={{ display: 'flex', flexWrap: 'wrap', marginLeft: "25%" }}>
+                    <Button style={{ marginRight: "2%", background: "#E0E0E0", width: "175px" }}><CheckIcon style={{ color: "#A1A1A1" }} /><Typography style={presentButtonTextStyleDisabled}>Present</Typography></Button>
+                    <Button style={{ background: "rgba(255, 109, 122, 0.2)", width: "175px" }}><CloseIcon style={{ color: "#B60011" }} /><Typography style={absentButtonTextStyle}>Absent</Typography></Button>
+                </Box>
+            }
+        }
 
     const buttonGroup = <Box style={{ display: 'flex', flexWrap: 'wrap', marginLeft: "25%" }}>
         <Button style={{ marginRight: "2%", background: "rgba(163, 234, 138, 0.4)", width: "175px" }}><CheckIcon style={{ color: "#1C6A00" }} /><Typography style={presentButtonTextStyle}>Present</Typography></Button>
@@ -76,59 +131,94 @@ export default function Attendance() {
 
     const statsIcon = <AddchartIcon style={{ color: "#626262" }} />
 
-    const rows = [
-        createData('Himanshu', buttonGroup, previousDays),
-        createData('Sandip', buttonGroup, statsIcon),
-        createData('Divesh', buttonGroup, statsIcon),
-        createData('Aravind', buttonGroup, statsIcon)
-    ];
+
+    const getAttendance = (e) => {
+        const class1 = class2+section
+        console.log(class1)
+        const data = JSON.stringify({
+            "data": {
+                "cc": class1,
+                "date": "10-11-2021",
+                "sub": "maths"
+            }
+        });
+
+        var config = {
+            method: 'POST',
+            url: 'http://127.0.0.1:5000/filter2',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: data
+        };
+
+        axios(config)
+            .then(response => {
+                const rows = [];
+                var rs = response.data["data"]
+                console.log(response.data)
+                Object.keys(rs).map((key, index) => (
+                    rows.push(createData(key, createButtons(rs[key]), previousDays))
+                ))
+                setStudents(rows)
+                console.log(rows)
+            })
+    }
 
 
 
     return (
         <Box style={{ display: 'flex', flexWrap: 'wrap', marginLeft: "3.5%" }}>
             <FormControl style={{ width: "50%", marginRight: "10%", marginBottom: "3%" }}>
-                <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                <InputLabel id="demo-simple-select-label">Select Class</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={age}
-                    label="Age"
-                    onChange={handleChange}
+                    value={class2}
+                    label="Select Category"
+                    onChange={handleClass}
                 >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    <MenuItem value={"lkg"}>L.K.G</MenuItem>
+                    <MenuItem value={"ukg"}>U.K.G</MenuItem>
+                    <MenuItem value={"1"}>Class 1</MenuItem>
+                    <MenuItem value={"2"}>Class 2</MenuItem>
+                    <MenuItem value={"3"}>Class 3</MenuItem>
+                    <MenuItem value={"4"}>Class 4</MenuItem>
+                    <MenuItem value={"5"}>Class 5</MenuItem>
+                    <MenuItem value={"6"}>Class 6</MenuItem>
+                    <MenuItem value={"7"}>Class 7</MenuItem>
+                    <MenuItem value={"8"}>Class 8</MenuItem>
+                    <MenuItem value={"9"}>Class 9</MenuItem>
+                    <MenuItem value={"10"}>Class 10</MenuItem>
                 </Select>
             </FormControl>
             <FormControl style={{ width: "30%" }}>
-                <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                <InputLabel id="demo-simple-select-label">Select Section</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
                     id="demo-simple-select"
-                    value={age}
-                    label="Age"
-                    onChange={handleChange}
+                    value={section}
+                    label="Select Frequency"
+                    onChange={handleSection}
                 >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    <MenuItem value={"a"}>A</MenuItem>
+                    <MenuItem value={"b"}>B</MenuItem>
+                    <MenuItem value={"c"}>C</MenuItem>
                 </Select>
             </FormControl>
-            <FormControl style={{ width: "50%", marginBottom: "4%" }}>
-                <InputLabel id="demo-simple-select-label">Age</InputLabel>
-                <Select
-                    labelId="demo-simple-select-label"
-                    id="demo-simple-select"
-                    value={age}
-                    label="Age"
-                    onChange={handleChange}
-                >
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                </Select>
-            </FormControl>
+            <LocalizationProvider dateAdapter={AdapterDateFns}>
+                <Stack spacing={3}>
+                    <DesktopDatePicker
+                        label="Select Date"
+                        inputFormat="MM/dd/yyyy"
+                        value={value}
+                        onChange={handleChangeDate}
+                        renderInput={(params) => <TextField style={{ marginBottom: "12%", width: "199%" }} {...params} />}
+                    />
+                </Stack>
+            </LocalizationProvider>
+
+            <Button variant="outlined" style={{marginLeft:"35%", height:"55px", width: "30%"}} onClick={getAttendance}>Submit</Button>
 
             <TableContainer component={Paper}>
                 <Table sx={{ minWidth: 650 }} size="small" aria-label="a dense table">
@@ -140,7 +230,7 @@ export default function Attendance() {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows.map((row) => (
+                        {students.map((row) => (
                             <TableRow
                                 key={row.name}
                                 sx={{ '&:last-child td, &:last-child th': { border: 0 } }}

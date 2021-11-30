@@ -32,6 +32,8 @@ import Marks from './components/studyCentral/marks';
 import CreateTask from './components/createTask/createtask';
 import CreateUser from './components/createUser/Userscreen';
 import AssignClass from './components/assignClass/AssignClass';
+import TeacherProfile from './components/teacherProfile/teacherProfile';
+import StudyCentralHome from './components/studyCentral/scHome';
 
 
 function App() {
@@ -174,7 +176,9 @@ function App() {
           {/* <Marks/> */}
           {/* <CreateTask/> */}
           {/* <CreateUser/> */}
-          <AssignClass/>
+          {/* <AssignClass/> */}
+          {/* <TeacherProfile/> */}
+          <StudyCentralHome/>
           </Item>
         </Grid>
       </Grid>

@@ -65,7 +65,7 @@ export default function Checklist() {
 
     return (
         <Box sx={{ minWidth: 120 }}>
-            <FormControl style={{width:"80%", marginLeft:"5%", marginTop:"2%"}}>
+            <FormControl style={{width:"80%", marginLeft:"-10%", marginTop:"2%"}}>
                 <InputLabel id="demo-simple-select-label">Select Role</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -79,7 +79,7 @@ export default function Checklist() {
                     <MenuItem value={20}>Non-Teaching Staff</MenuItem>
                 </Select>
             </FormControl>
-            <FormControl style={{width:"80%", marginLeft:"5%", marginTop:"3%"}}>
+            <FormControl style={{width:"80%", marginLeft:"-10%", marginTop:"3%"}}>
                 <InputLabel id="demo-simple-select-label">Select Frequency</InputLabel>
                 <Select
                     labelId="demo-simple-select-label"
@@ -94,19 +94,19 @@ export default function Checklist() {
                 </Select>
             </FormControl>
             <TabContext value={value}>
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }} style={{marginTop:"3%"}}>
+                <Box sx={{ borderBottom: 1, borderColor: 'divider' }} style={{marginTop:"3%", marginLeft:"5%"}}>
                     <TabList onChange={handleChange2} aria-label="lab API tabs example">
                         <Tab label="Standard Activities" value="1" />
                         <Tab label="Core Activities" value="2" />
                     </TabList>
                 </Box>
                 <TabPanel value="1">
-                    <Box style={{ display: 'flex', flexWrap: 'wrap', marginLeft: "3.5%" }}>
+                    <Box style={{ display: 'flex', flexWrap: 'wrap'}}>
                         {standardActivitiesComponents}
                     </Box>
                 </TabPanel>
                 <TabPanel value="2">
-                    <Box style={{ display: 'flex', flexWrap: 'wrap', marginLeft: "3.5%" }}>
+                    <Box style={{ display: 'flex', flexWrap: 'wrap'}}>
                         {coreActivitiesComponents}
                     </Box>
                 </TabPanel>
