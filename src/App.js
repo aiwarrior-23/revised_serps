@@ -34,6 +34,7 @@ import CreateUser from './components/createUser/Userscreen';
 import AssignClass from './components/assignClass/AssignClass';
 import TeacherProfile from './components/teacherProfile/teacherProfile';
 import StudyCentralHome from './components/studyCentral/scHome';
+import MyTasks from './components/myTasks/myTasks';
 
 
 function App() {
@@ -57,6 +58,8 @@ function App() {
 
   const [colorNot, setColorNot] = useState("white")
   const [backgroundNot, setBackgroundNot] = useState("#1976D2")
+
+  const [component, setComponent] = useState(<HomeScreen/>)
 
 
   const clearState = () => {
@@ -84,6 +87,7 @@ function App() {
     clearState()
     setColorMT("#1976D2")
     setBackgroundMT("white")
+    setComponent(<MyTasks/>)
 
   }
   const onStudyCentralClick = () => {
@@ -178,7 +182,9 @@ function App() {
           {/* <CreateUser/> */}
           {/* <AssignClass/> */}
           {/* <TeacherProfile/> */}
-          <StudyCentralHome/>
+          {/* <StudyCentralHome/> */}
+          {/* <MyTasks/> */}
+          {component}
           </Item>
         </Grid>
       </Grid>

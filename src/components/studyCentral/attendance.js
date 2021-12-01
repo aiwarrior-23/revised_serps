@@ -28,7 +28,8 @@ import { useState } from 'react';
 export default function Attendance() {
     const [section, setSection] = React.useState('');
     const [class2, setClass] = React.useState('');
-    const [value, setValue] = React.useState(new Date('2014-08-18T21:11:54'));
+    const [date, setDate] = React.useState('');
+    const [value, setValue] = React.useState(new Date('2021-08-18T21:11:54'));
     const [students, setStudents] = useState([])
 
 
@@ -134,11 +135,14 @@ export default function Attendance() {
 
     const getAttendance = (e) => {
         const class1 = class2+section
-        console.log(class1)
+        const date=value.getDate()
+        const month=value.getMonth()+1
+        const year=value.getFullYear()
+        const completeDate = date+"-"+month+"-"+year
         const data = JSON.stringify({
             "data": {
                 "cc": class1,
-                "date": "10-11-2021",
+                "date": completeDate,
                 "sub": "maths"
             }
         });
@@ -210,7 +214,7 @@ export default function Attendance() {
                 <Stack spacing={3}>
                     <DesktopDatePicker
                         label="Select Date"
-                        inputFormat="MM/dd/yyyy"
+                        inputFormat="dd-MM-yyyy"
                         value={value}
                         onChange={handleChangeDate}
                         renderInput={(params) => <TextField style={{ marginBottom: "12%", width: "199%" }} {...params} />}
