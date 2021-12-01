@@ -35,10 +35,11 @@ import AssignClass from './components/assignClass/AssignClass';
 import TeacherProfile from './components/teacherProfile/teacherProfile';
 import StudyCentralHome from './components/studyCentral/scHome';
 import MyTasks from './components/myTasks/myTasks';
+import axios from 'axios';
 
 
 function App() {
-  
+
 
 
   const [colorHome, setColorHome] = useState("white")
@@ -59,7 +60,7 @@ function App() {
   const [colorNot, setColorNot] = useState("white")
   const [backgroundNot, setBackgroundNot] = useState("#1976D2")
 
-  const [component, setComponent] = useState(<HomeScreen/>)
+  const [component, setComponent] = useState(<HomeScreen />)
 
 
   const clearState = () => {
@@ -87,7 +88,26 @@ function App() {
     clearState()
     setColorMT("#1976D2")
     setBackgroundMT("white")
-    setComponent(<MyTasks/>)
+    const data = JSON.stringify({
+      "assigned": "admin@srishtiworldschools.in"
+    });
+
+    var config = {
+      method: 'POST',
+      url: 'http://127.0.0.1:5000/taskassign',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: data
+    };
+
+    axios(config)
+      .then(response => {
+        var description = response.data["data"]
+        var pop = response.data["populator"]
+
+        setComponent(<MyTasks msg={response.data["message"]} it={description} pop={pop} mail="admin@srishtiworldschools.in"/> )
+      })
 
   }
   const onStudyCentralClick = () => {
@@ -116,9 +136,9 @@ function App() {
     padding: theme.spacing(1),
     textAlign: 'center',
     color: theme.palette.text.secondary,
-}));
+  }));
 
-  
+
 
   return (
     <div id="App" className="App">
@@ -175,16 +195,16 @@ function App() {
         <Grid id="bigGrid" item xs={10} style={{ backgroundColor: "#1976D2", marginLeft: "-1%", marginTop: "1%" }}>
           {/* <HomeScreen /> */}
           <Item style={{ minHeight: "125%", marginTop: "1%", borderRadius: "45px" }}>
-          {/* <Checklist/> */}
-          {/* <Attendance/> */}
-          {/* <Marks/> */}
-          {/* <CreateTask/> */}
-          {/* <CreateUser/> */}
-          {/* <AssignClass/> */}
-          {/* <TeacherProfile/> */}
-          {/* <StudyCentralHome/> */}
-          {/* <MyTasks/> */}
-          {component}
+            {/* <Checklist/> */}
+            {/* <Attendance/> */}
+            {/* <Marks/> */}
+            {/* <CreateTask/> */}
+            {/* <CreateUser/> */}
+            {/* <AssignClass/> */}
+            {/* <TeacherProfile/> */}
+            {/* <StudyCentralHome/> */}
+            {/* <MyTasks/> */}
+            {component}
           </Item>
         </Grid>
       </Grid>
