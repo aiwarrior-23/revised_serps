@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import "./homescreen.scss"
+import "./homescreen.scss";
+import { styled } from '@mui/material/styles';
 import ReactDOM from 'react-dom';
 // import "./menuButtons.css"
 import axios from 'axios';
@@ -10,23 +11,18 @@ import CardContent from '@mui/material/CardContent';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 // import NewsComponent from '../newsfeed/NewsFeed';
-import { Alert } from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import { styled, alpha } from '@mui/material/styles';
-import { InputLabel } from '@mui/material';
-import { Select } from '@mui/material';
-import { MenuItem } from '@mui/material';
-import { SpeedDial } from '@mui/material';
-import { SpeedDialAction } from '@mui/material';
-import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import PrintIcon from '@mui/icons-material/Print';
-import ShareIcon from '@mui/icons-material/Share';
-import SpeedDialIcon from '@mui/material/SpeedDialIcon';
+
+
 import { Paper } from '@mui/material';
+
 import { Toolbar } from '@mui/material';
 import { FormControl } from '@mui/material';
 import { ButtonGroup } from '@mui/material';
+import AssignClass from '../assignClass/AssignClass';
+import CreateTask from '../createTask/createtask';
+import CreateUser from '../createUser/Userscreen';
+import TeacherProfile from '../teacherProfile/teacherProfile';
+import PersonAdd from '@material-ui/icons/PersonAdd';
 
 function HomeScreen(props) {
 
@@ -80,7 +76,7 @@ function HomeScreen(props) {
             .then(response => {
                 var description = response.data["data"]
                 var pop = response.data["populator"]
-                //   ReactDOM.render(
+                //   .render(
                 //     <React.StrictMode>
                 //       <TaskViewer msg={response.data["message"]} it={description} pop={pop} const mail={props.mail} cTask={props.cTask} />
                 //     </React.StrictMode>,
@@ -114,53 +110,12 @@ function HomeScreen(props) {
         color: theme.palette.text.secondary,
     }));
 
-    const actions = [
-        { icon: <FileCopyIcon />, name: 'Copy' },
-        { icon: <SaveIcon />, name: 'Save' },
-        { icon: <PrintIcon />, name: 'Print' },
-        { icon: <ShareIcon />, name: 'Share' },
-    ];
 
-
-
+   
     return (
         <Item style={{ minHeight: "125%", marginTop: "1%", borderRadius: "45px" }}>
 
-            <Toolbar>
-                <FormControl style={{ width: "50%" }}>
-
-                    <InputLabel id="demo-simple-select-standard-label">Select School...</InputLabel>
-
-                    <Select
-                        labelId="demo-simple-select-label"
-                        id="demo-simple-select"
-                        label="Select..."
-                        style={{ width: "165%", borderRadius: "45px" }}
-                    >
-                        <MenuItem value={1}>Srishti World School</MenuItem>
-                        <MenuItem value={2}>Chaitanya Public School</MenuItem>
-                    </Select>
-
-                </FormControl>
-
-                <SearchIcon style={{ marginLeft: "35%", height: "60px", width: "70px" }} />
-
-                <SpeedDial
-                    ariaLabel="SpeedDial basic example"
-                    sx={{ position: 'absolute', marginLeft: 120 }}
-                    icon={<SpeedDialIcon />}
-                    direction="down"
-                    style={{ width: 20, height: 50 }}
-                >
-                    {actions.map((action) => (
-                        <SpeedDialAction
-                            key={action.name}
-                            icon={action.icon}
-                            tooltipTitle={action.name}
-                        />
-                    ))}
-                </SpeedDial>
-            </Toolbar>
+           
             <Box>
                 <Typography variant="h5" style={{ marginTop: "3%" }}>
                     Hello Admin!!
@@ -176,9 +131,9 @@ function HomeScreen(props) {
                         “Intelligence plus character– that is the goal of true education.”- Martin Luther King Jr
                     </Typography>
                 </Paper>
-                <ButtonGroup variant="text" aria-label="text button group" style={{marginTop:"3%", color:"black"}}>
-                    <Button style={{color:"black"}}>Approvals</Button>
-                    <Button style={{color:"black"}}>Circulars</Button>
+                <ButtonGroup variant="text" aria-label="text button group" style={{ marginTop: "3%", color: "black" }}>
+                    <Button style={{ color: "black" }}>Approvals</Button>
+                    <Button style={{ color: "black" }}>Circulars</Button>
                 </ButtonGroup>
             </Box>
         </Item>

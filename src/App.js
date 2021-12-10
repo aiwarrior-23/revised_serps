@@ -1,6 +1,10 @@
 import './App.css';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
+import ClassIcon from '@material-ui/icons/Class';
+import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import ReactDOM from 'react-dom';
 import { AppBar, Button, ButtonGroup, FormControl, IconButton, Toolbar, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import HomeIcon from '@mui/icons-material/Home';
@@ -12,23 +16,18 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import { useState } from 'react';
 import HomeScreen from './components/homescreen/homescreen';
 import React from 'react';
-import ReactDOM from 'react-dom';
 import SearchIcon from '@mui/icons-material/Search';
-import { styled, alpha } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import { InputLabel } from '@mui/material';
 import { Select } from '@mui/material';
 import { MenuItem } from '@mui/material';
 import { SpeedDial } from '@mui/material';
 import { SpeedDialAction } from '@mui/material';
-import FileCopyIcon from '@mui/icons-material/FileCopyOutlined';
-import SaveIcon from '@mui/icons-material/Save';
-import PrintIcon from '@mui/icons-material/Print';
-import ShareIcon from '@mui/icons-material/Share';
+
 import SpeedDialIcon from '@mui/material/SpeedDialIcon';
-import { Box } from '@mui/system';
-import Checklist from './components/studyCentral/checklist';
-import Attendance from './components/studyCentral/attendance';
-import Marks from './components/studyCentral/marks';
+
+
+
 import CreateTask from './components/createTask/createtask';
 import CreateUser from './components/createUser/Userscreen';
 import AssignClass from './components/assignClass/AssignClass';
@@ -36,9 +35,10 @@ import TeacherProfile from './components/teacherProfile/teacherProfile';
 import StudyCentralHome from './components/studyCentral/scHome';
 import MyTasks from './components/myTasks/myTasks';
 import axios from 'axios';
+import PersonAdd from '@material-ui/icons/PersonAdd';
 
 
-function App() {
+function App(props) {
 
 
 
@@ -82,6 +82,7 @@ function App() {
     clearState()
     setColorHome("#1976D2")
     setBackgroundHome("white")
+    setComponent(<HomeScreen />)
   }
 
   const onMyTasksClick = () => {
@@ -106,7 +107,7 @@ function App() {
         var description = response.data["data"]
         var pop = response.data["populator"]
 
-        setComponent(<MyTasks msg={response.data["message"]} it={description} pop={pop} mail="admin@srishtiworldschools.in"/> )
+        setComponent(<MyTasks msg={response.data["message"]} it={description} pop={pop} mail="admin@srishtiworldschools.in" />)
       })
 
   }
@@ -114,6 +115,7 @@ function App() {
     clearState()
     setColorSC("#1976D2")
     setBackgroundSC("white")
+    setComponent(<StudyCentralHome />)
   }
   const onMessagesClick = () => {
     clearState()
@@ -130,6 +132,51 @@ function App() {
     setColorNot("#1976D2")
     setBackgroundNot("white")
   }
+  const actions = [
+    { icon: < ClassIcon />, name: 'Assign Class' },
+    { icon: <PlaylistAddIcon />, name: 'Create Task' },
+    { icon: <PersonAdd />, name: 'Create User' },
+    { icon: <AccountCircleIcon />, name: 'Teacher profile' },
+  ];
+  const handleComponent = (e, name) => {
+    e.preventDefault();
+    if (name == 'Assign Class') {
+      ReactDOM.render(
+        <React.StrictMode>
+          <AssignClass />
+        </React.StrictMode>,
+        document.getElementById('main')
+      );
+
+    }
+    else if (name == 'Create Task') {
+      ReactDOM.render(
+        <React.StrictMode>
+          <CreateTask />
+        </React.StrictMode>,
+        document.getElementById('main')
+      );
+
+    }
+    else if (name == 'Create User') {
+      ReactDOM.render(
+        <React.StrictMode>
+          <CreateUser />
+        </React.StrictMode>,
+        document.getElementById('main')
+      );
+    }
+    else if (name == 'Teacher profile') {
+      ReactDOM.render(
+        <React.StrictMode>
+          <TeacherProfile />
+        </React.StrictMode>,
+        document.getElementById('main')
+      );
+    }
+
+  }
+
 
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -194,9 +241,47 @@ function App() {
         </Grid>
         <Grid id="bigGrid" item xs={10} style={{ backgroundColor: "#1976D2", marginLeft: "-1%", marginTop: "1%" }}>
           {/* <HomeScreen /> */}
-          <Item style={{ minHeight: "125%", marginTop: "1%", borderRadius: "45px" }}>
+
+          <Item id="main" style={{ minHeight: "125%", marginTop: "1%", borderRadius: "45px" }}>
             {/* <Checklist/> */}
-            {/* <Attendance/> */}
+            {/* <Attendance/> */}<Toolbar>
+              <FormControl style={{ width: "50%" }}>
+
+                <InputLabel id="demo-simple-select-standard-label">Select School...</InputLabel>
+
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  label="Select..."
+                  style={{ width: "145%", borderRadius: "45px" }}
+                >
+                  <MenuItem value={1}>Srishti World School</MenuItem>
+                  <MenuItem value={2}>Chaitanya Public School</MenuItem>
+                </Select>
+
+              </FormControl>
+
+              <SearchIcon style={{ marginLeft: "25%", height: "60px", width: "70px" }} />
+
+              <SpeedDial
+                ariaLabel="SpeedDial basic example"
+                sx={{ position: 'absolute', marginLeft: 120 }}
+                icon={<SpeedDialIcon />}
+                direction="down"
+                style={{ width: 20, height: 50 }}
+              >
+                {actions.map((action) => (
+                  <SpeedDialAction
+                    key={action.name}
+                    icon={action.icon}
+                    tooltipTitle={action.name}
+                    onClick={(e, name = action["name"]) => {
+                      handleComponent(e, name)
+                    }}
+                  />
+                ))}
+              </SpeedDial>
+            </Toolbar>
             {/* <Marks/> */}
             {/* <CreateTask/> */}
             {/* <CreateUser/> */}

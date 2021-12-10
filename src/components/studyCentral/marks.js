@@ -11,12 +11,11 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import { Typography } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
-import AddchartIcon from '@mui/icons-material/Addchart';
+
 
 export default function Marks() {
     const [age, setAge] = React.useState('');
