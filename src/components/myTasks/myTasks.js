@@ -23,6 +23,26 @@ export default function MyTasks(props) {
     const pop = props.pop
 
     function checkPriority(taskDescription, priority) {
+        if (taskDescription === "s" && priority === 'm') {
+            return (
+                <Paper
+                    style={{
+                        marginBottom: "5%",
+                        width: "1000px",
+                        background: "#30AE0433",
+                        borderRadius: "25px"
+                    }}>
+                    <Box>
+                        <Box style={{ display: 'flex', flexWrap: 'wrap', marginLeft: "3.5%" }}>
+                            <TaskIcon style={{ marginRight: "1%", color: "rgba(28, 106, 0, 1)", marginTop: "3%" }} />
+                            <Typography style={{ color: "rgba(28, 106, 0, 1)", marginTop: "3%" }}>No task to display</Typography>
+                        </Box>
+                    </Box>
+
+                </Paper>
+            )
+        }
+        else{
         if (priority === "high") {
             return highPriorityTask(taskDescription, priority)
         }
@@ -31,6 +51,7 @@ export default function MyTasks(props) {
         }
         else {
             return lowPriorityTask(taskDescription, priority)
+            }
         }
     }
 
