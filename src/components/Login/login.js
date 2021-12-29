@@ -16,6 +16,9 @@ import FormControl from '@mui/material/FormControl';
 import TextField from '@mui/material/TextField';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
+import HomeScreen from '../homescreen/homescreen';
+import reactDom from 'react-dom';
+import axios from 'axios';
 
 
 export default function Login() {
@@ -26,6 +29,10 @@ export default function Login() {
         weightRange: '',
         showPassword: false,
     });
+    const [email,setEmail]=useState();
+    const handelemailchanges=(event)=>{
+        setEmail(event.target.value);
+    }
 
     const handleChange = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
@@ -41,7 +48,39 @@ export default function Login() {
     const handleMouseDownPassword = (event) => {
         event.preventDefault();
     };
+    const onsubmit =()=>{
+        const logincredentials = JSON.stringify({
+            "userDetails":{
+            "userName": email,
+            "password":values.password,
+            "isParent":"0"
+            }
+          });
+      
+          var config = {
+            method: 'POST',
+            url: 'http://34.136.41.197:5000/login',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Headers': '*',
+                'Access-Control-Allow-Origin': 'null'
 
+            },
+            data: logincredentials
+          };
+      
+          axios(config)
+            .then(response => {
+              var name = response.data["uName"]
+              var emails = response.data["mailID"]
+      
+              reactDom.render(
+                <React.StrictMode>
+                    <HomeScreen name={name} email={emails} />
+                </React.StrictMode>,
+                document.getElementById('root'));
+            })
+    } 
 
 
 
@@ -79,7 +118,7 @@ export default function Login() {
 
 
                 >
-                    <TextField fullWidth id="outlined-basic" label="Phone Number" variant="outlined" />
+                    <TextField fullWidth id="outlined-basic" label="Phone Number" onChange={handelemailchanges} variant="outlined" />
 
                 </Box>
 
@@ -127,12 +166,12 @@ export default function Login() {
                         />
                     </FormControl>
 
-                    <p style={{ fontSize: '12px', marginLeft: '290px' ,color:'#1976D2'}}>Forgot Password?</p>
-                    <Button variant="contained" color="primary" sx={{ top: 10, left: 96 }}>Login</Button>
-<Stack direction="row" style={{marginTop:30}}>
-<Typography style={{fontSize:'14px'}}>Not Registered yet?</Typography>
-                        <Typography style={{ fontSize:'14px',marginLeft:8,color:'#1967D2'}}>Create Account</Typography>
-</Stack>
+                    <p style={{ fontSize: '12px', marginLeft: '290px', color: '#1976D2' }}>Forgot Password?</p>
+                    <Button variant="contained" color="primary" sx={{ top: 10, left: 96 }} onClick={()=>onsubmit()}>Login</Button>
+                    <Stack direction="row" style={{ marginTop: 30 }}>
+                        <Typography style={{ fontSize: '14px' }}>Not Registered yet?</Typography>
+                        <Typography style={{ fontSize: '14px', marginLeft: 8, color: '#1967D2' }}>Create Account</Typography>
+                    </Stack>
 
 
 
@@ -140,7 +179,7 @@ export default function Login() {
 
 
             </Box>
-            <Box><img alt="Login" style={{height:'1000px',width:'50%'}} src='Images/loginbg.png'/></Box>
+            <Box><img alt="Login" style={{ height: '1000px', width: '50%' }} src='Images/loginbg.png' /></Box>
 
         </Stack>
     )
