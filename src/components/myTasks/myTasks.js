@@ -2,7 +2,6 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import { Tabs } from '@material-ui/core';
 import { Tab } from '@material-ui/core';
-
 import Typography from '@mui/material/Typography';
 import TaskIcon from '@mui/icons-material/Task';
 import { Paper } from '@mui/material';
@@ -145,7 +144,7 @@ export default function MyTasks(props) {
         });
         var config = {
             method: 'POST',
-            url: 'http://10.0.0.12:5001/taskassign1',
+            url: 'http://192.168.0.105:5001/taskassign1',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -154,9 +153,10 @@ export default function MyTasks(props) {
         axios(config)
             .then(response => {
                 var ContentData = response.data["json"];
-                setMytask("false");
                 setRespData(ContentData);
+                setMytask("false");
                 
+                console.log(respdata);
             })
             .catch(function (error) {
                 console.error(error)
