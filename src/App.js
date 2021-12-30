@@ -60,7 +60,7 @@ function App(props) {
   const [colorNot, setColorNot] = useState("white")
   const [backgroundNot, setBackgroundNot] = useState("#1976D2")
 
-  const [component, setComponent] = useState(<HomeScreen />)
+  const [component, setComponent] = useState(<HomeScreen name={props.name}/>)
 
 
   const clearState = () => {
@@ -82,7 +82,7 @@ function App(props) {
     clearState()
     setColorHome("#1976D2")
     setBackgroundHome("white")
-    setComponent(<HomeScreen />)
+    setComponent(<HomeScreen name={props.name}/>)
   }
 
   const onMyTasksClick = () => {
@@ -90,12 +90,12 @@ function App(props) {
     setColorMT("#1976D2")
     setBackgroundMT("white")
     const data = JSON.stringify({
-      "assigned": "admin@srishtiworldschools.in"
+      "assigned": props.email
     });
 
     var config = {
       method: 'POST',
-      url: 'http://127.0.0.1:5000/taskassign',
+      url: 'http://10.0.0.3:5001/taskassign',
       headers: {
         'Content-Type': 'application/json'
       },

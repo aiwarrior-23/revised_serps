@@ -118,7 +118,7 @@ function HomeScreen(props) {
            
             <Box>
                 <Typography variant="h5" style={{ marginTop: "3%" }}>
-                    Hello Admin!!
+                    Hello {props.name}!!
                 </Typography>
                 <Typography variant="subtitle2">
                     Good Evening.

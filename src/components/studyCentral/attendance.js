@@ -138,7 +138,7 @@ export default function Attendance() {
         const date=value.getDate()
         const month=value.getMonth()+1
         const year=value.getFullYear()
-        const completeDate = date+"-"+month+"-"+year
+        const completeDate = date+"/"+month+"/"+year
         const data = JSON.stringify({
             "data": {
                 "cc": class1,
@@ -149,7 +149,7 @@ export default function Attendance() {
 
         var config = {
             method: 'POST',
-            url: 'http://34.136.41.197:5000/filter2',
+            url: 'http://10.0.0.3:5001/filter2',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -159,14 +159,52 @@ export default function Attendance() {
         axios(config)
             .then(response => {
                 const rows = [];
-                var rs = response.data["data"]
+                let rs = response.data["data"]
                 console.log(response.data)
+                if(rs !=null){
                 Object.keys(rs).map((key, index) => (
                     rows.push(createData(key, createButtons(rs[key]), previousDays))
                 ))
                 setStudents(rows)
                 console.log(rows)
+                }
+                else{
+                    rs="No thing to display";
+                    setStudents("null");
+                }
             })
+    }
+    let displayDat="";
+    if(students==="null"){
+        displayDat=
+        <TableBody>
+                       
+                            <TableRow
+                                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                            >
+                                <TableCell component="th" scope="row" align="center">
+                                    &nbsp;
+                                </TableCell>
+                                <TableCell align="center">No Data to Display</TableCell>
+                                <TableCell align="center">&nbsp;</TableCell>
+                            </TableRow>
+                    </TableBody>
+    }
+    else{
+        displayDat= <TableBody>
+        {students.map((row) => (
+            <TableRow
+                key={row.name}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+            >
+                <TableCell component="th" scope="row" align="center">
+                    {row.name}
+                </TableCell>
+                <TableCell align="center">{row.status}</TableCell>
+                <TableCell align="center">{row.statistics}</TableCell>
+            </TableRow>
+        ))}
+    </TableBody>
     }
 
 
@@ -233,7 +271,7 @@ export default function Attendance() {
                             <TableCell align="center">Statistics</TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    {/* <TableBody>
                         {students.map((row) => (
                             <TableRow
                                 key={row.name}
@@ -246,7 +284,8 @@ export default function Attendance() {
                                 <TableCell align="center">{row.statistics}</TableCell>
                             </TableRow>
                         ))}
-                    </TableBody>
+                    </TableBody> */}
+                    {displayDat}
                 </Table>
             </TableContainer>
         </Box>

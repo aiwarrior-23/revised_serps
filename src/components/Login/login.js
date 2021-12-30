@@ -19,6 +19,7 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import HomeScreen from '../homescreen/homescreen';
 import reactDom from 'react-dom';
 import axios from 'axios';
+import App from '../../App';
 
 
 export default function Login() {
@@ -29,7 +30,11 @@ export default function Login() {
         weightRange: '',
         showPassword: false,
     });
+    const [login,setLogin]=useState("true");
+    let screencode="";
     const [email,setEmail]=useState();
+    const[respemail,setRespemail]=useState();
+    const[respname,setRespname]=useState();
     const handelemailchanges=(event)=>{
         setEmail(event.target.value);
     }
@@ -59,7 +64,7 @@ export default function Login() {
       
           var config = {
             method: 'POST',
-            url: 'http://34.136.41.197:5000/login',
+            url: 'http://10.0.0.3:5001/login',
             headers: {
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Headers': '*',
@@ -71,116 +76,118 @@ export default function Login() {
       
           axios(config)
             .then(response => {
-              var name = response.data["uName"]
-              var emails = response.data["mailID"]
-      
-              reactDom.render(
-                <React.StrictMode>
-                    <HomeScreen name={name} email={emails} />
-                </React.StrictMode>,
-                document.getElementById('root'));
+                setRespname(response.data["uName"]);
+              setRespemail(response.data["mailID"]);
+            setLogin("false");
             })
     } 
+if(login==="true"){
+screencode=<Stack direction="row">
+<Box style={{ height: '100%', width: '50%' }}>
+    <Typography variant="h5" component="div" style={{ marginTop: 120, marginLeft: 96, fontWeight: 'bold', fontSize: 33 }}>
+        Login
+    </Typography>
+    <Button variant="outlined" style={{ top: 20, left: 66, fontSize: 8 }}>Sign in with Google</Button>
+    <Stack direction="row" style={{ marginTop: 55 }}>
 
+        <Typography style={{ color: 'grey', marginLeft: 25 }}>___________</Typography>
+        <Typography style={{ color: 'grey' }}>(or)</Typography>
+
+
+        <Typography style={{ color: 'grey' }}>___________</Typography>
+
+    </Stack>
+
+    <Typography style={{ fontWeight: '600', fontSize: '16px', marginLeft: 66, marginTop: 30 }}>Phone Number</Typography>
+
+    <Box
+        component="form"
+
+        sx={{
+            width: 400,
+            maxWidth: '100%',
+            marginLeft: 5,
+            marginTop: 3
+        }}
+
+
+    >
+        <TextField fullWidth id="outlined-basic" label="Phone Number" onChange={handelemailchanges} variant="outlined" />
+
+    </Box>
+
+    <Typography style={{ fontWeight: '600', fontSize: '16px', marginLeft: 66, marginTop: 30 }}>Password</Typography>
+    <Box
+        component="form"
+
+        sx={{
+            width: 400,
+            maxWidth: '100%',
+            marginLeft: 5,
+            marginTop: 3
+        }}
+
+
+    >
+
+
+
+
+        <FormControl sx={{
+            width: 400,
+            maxWidth: '100%',
+            marginLeft: 1,
+        }} variant="outlined">
+            <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
+            <OutlinedInput
+                id="outlined-adornment-password"
+                type={values.showPassword ? 'text' : 'password'}
+                value={values.password}
+                onChange={handleChange('password')}
+                endAdornment={
+                    <InputAdornment position="end">
+                        <IconButton
+                            aria-label="toggle password visibility"
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                        >
+                            {values.showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                    </InputAdornment>
+                }
+                label="Password"
+            />
+        </FormControl>
+
+        <p style={{ fontSize: '12px', marginLeft: '290px', color: '#1976D2' }}>Forgot Password?</p>
+        <Button variant="contained" color="primary" sx={{ top: 10, left: 96 }} onClick={()=>onsubmit()}>Login</Button>
+        <Stack direction="row" style={{ marginTop: 30 }}>
+            <Typography style={{ fontSize: '14px' }}>Not Registered yet?</Typography>
+            <Typography style={{ fontSize: '14px', marginLeft: 8, color: '#1967D2' }}>Create Account</Typography>
+        </Stack>
+
+
+
+    </Box>
+
+
+</Box>
+<Box><img alt="Login" style={{ height: '1000px', width: '50%' }} src='Images/loginbg.png' /></Box>
+
+</Stack>
+}
+else{
+    screencode=<App email={respemail} name={respname}></App>
+}
 
 
 
 
 
     return (
-        <Stack direction="row">
-            <Box style={{ height: '100%', width: '50%' }}>
-                <Typography variant="h5" component="div" style={{ marginTop: 120, marginLeft: 96, fontWeight: 'bold', fontSize: 33 }}>
-                    Login
-                </Typography>
-                <Button variant="outlined" style={{ top: 20, left: 66, fontSize: 8 }}>Sign in with Google</Button>
-                <Stack direction="row" style={{ marginTop: 55 }}>
-
-                    <Typography style={{ color: 'grey', marginLeft: 25 }}>___________</Typography>
-                    <Typography style={{ color: 'grey' }}>(or)</Typography>
-
-
-                    <Typography style={{ color: 'grey' }}>___________</Typography>
-
-                </Stack>
-
-                <Typography style={{ fontWeight: '600', fontSize: '16px', marginLeft: 66, marginTop: 30 }}>Phone Number</Typography>
-
-                <Box
-                    component="form"
-
-                    sx={{
-                        width: 400,
-                        maxWidth: '100%',
-                        marginLeft: 5,
-                        marginTop: 3
-                    }}
-
-
-                >
-                    <TextField fullWidth id="outlined-basic" label="Phone Number" onChange={handelemailchanges} variant="outlined" />
-
-                </Box>
-
-                <Typography style={{ fontWeight: '600', fontSize: '16px', marginLeft: 66, marginTop: 30 }}>Password</Typography>
-                <Box
-                    component="form"
-
-                    sx={{
-                        width: 400,
-                        maxWidth: '100%',
-                        marginLeft: 5,
-                        marginTop: 3
-                    }}
-
-
-                >
-
-
-
-
-                    <FormControl sx={{
-                        width: 400,
-                        maxWidth: '100%',
-                        marginLeft: 1,
-                    }} variant="outlined">
-                        <InputLabel htmlFor="outlined-adornment-password">Password</InputLabel>
-                        <OutlinedInput
-                            id="outlined-adornment-password"
-                            type={values.showPassword ? 'text' : 'password'}
-                            value={values.password}
-                            onChange={handleChange('password')}
-                            endAdornment={
-                                <InputAdornment position="end">
-                                    <IconButton
-                                        aria-label="toggle password visibility"
-                                        onClick={handleClickShowPassword}
-                                        onMouseDown={handleMouseDownPassword}
-                                        edge="end"
-                                    >
-                                        {values.showPassword ? <VisibilityOff /> : <Visibility />}
-                                    </IconButton>
-                                </InputAdornment>
-                            }
-                            label="Password"
-                        />
-                    </FormControl>
-
-                    <p style={{ fontSize: '12px', marginLeft: '290px', color: '#1976D2' }}>Forgot Password?</p>
-                    <Button variant="contained" color="primary" sx={{ top: 10, left: 96 }} onClick={()=>onsubmit()}>Login</Button>
-                    <Stack direction="row" style={{ marginTop: 30 }}>
-                        <Typography style={{ fontSize: '14px' }}>Not Registered yet?</Typography>
-                        <Typography style={{ fontSize: '14px', marginLeft: 8, color: '#1967D2' }}>Create Account</Typography>
-                    </Stack>
-
-
-
-                </Box>
-
-
-            </Box>
-            <Box><img alt="Login" style={{ height: '1000px', width: '50%' }} src='Images/loginbg.png' /></Box>
-
-        </Stack>
+        <div>
+        {screencode}
+        </div>
     )
 }
